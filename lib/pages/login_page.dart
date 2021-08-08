@@ -1,5 +1,7 @@
 import 'package:chat_app/auth/firebase_auth_service.dart';
+import 'package:chat_app/auth/google_sign_in_button.dart';
 import 'package:chat_app/pages/chat_room_page.dart';
+import 'package:chat_app/utils/custom_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,18 +9,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
-  static final String routeName = "\login";
+  static const String routeName = "\login";
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final Color primaryColor = Color(0xff18203d);
-  final Color secondaryColor = Color(0xff232c51);
-
-  final Color logoGreen = Color(0xff25bcbb);
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -40,12 +37,12 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        backgroundColor: primaryColor,
+        backgroundColor: CustomColors.primaryColor,
         body: Form(
           key: _formKey,
           child: Container(
           alignment: Alignment.topCenter,
-            margin: EdgeInsets.symmetric(horizontal: 30),
+            margin: const EdgeInsets.symmetric(horizontal: 30),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -56,21 +53,21 @@ class _LoginPageState extends State<LoginPage> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(color: Colors.white, fontSize: 28),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     'Enter your email and password below to continue to the Team and let the begin!',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(color: Colors.white, fontSize: 14),
                   ),
-                  SizedBox(height: 50,),
+                  const SizedBox(height: 50,),
                   //_buildTextFormField(emailController, Icons.account_circle, 'Email Address'),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(color: secondaryColor, border: Border.all(color: Colors.blue)),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(color: CustomColors.secondaryColor, border: Border.all(color: Colors.blue)),
                     child: TextFormField(
                       controller: emailController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 10),
                           labelText: 'Email Address',
                           labelStyle: TextStyle(color: Colors.white),
@@ -85,15 +82,15 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   //_buildTextFormField(passwordController, Icons.lock, 'Password'),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(color: secondaryColor, border: Border.all(color: Colors.blue)),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(color: CustomColors.secondaryColor, border: Border.all(color: Colors.blue)),
                     child: TextFormField(
                       controller: passwordController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 10),
                           labelText: 'Password',
                           labelStyle: TextStyle(color: Colors.white),
@@ -108,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   MaterialButton(
                     elevation: 0,
                     minWidth: double.maxFinite,
@@ -117,55 +114,50 @@ class _LoginPageState extends State<LoginPage> {
                       isLogin = true;
                       _loginUser();
                     },
-                    color: logoGreen,
-                    child: Text('Login',style: TextStyle(color: Colors.white, fontSize: 16)),
+                    color: CustomColors.logoGreen,
+                    child: const Text('Login',style: TextStyle(color: Colors.white, fontSize: 16)),
                     textColor: Colors.white,
                   ),
-                  SizedBox(height: 20),
-                  MaterialButton(
-                    elevation: 0,
-                    minWidth: double.maxFinite,
-                    height: 50,
-                    onPressed: () {
-                      //_signInWithGoogle();
-                    },
-                    color: Colors.blue,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(FontAwesomeIcons.google),
-                        SizedBox(width: 10),
-                        Text(
-                          'Sign-in using Google',
-                          style: TextStyle( color: Colors.white, fontSize: 16 )
+                  const SizedBox(height: 20),
+                  FutureBuilder(
+                    future: FirebaseAuthService.initializeFirebase(context: context),
+                    builder: (context, snapshot) {
+                      print(snapshot.connectionState);
+                      if (snapshot.hasError) {
+                        return const Text('Error initializing Firebase');
+                      } else if (snapshot.connectionState == ConnectionState.done) {
+                        return GoogleSignInButton();
+                      }
+                      return const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          CustomColors.firebaseOrange,
                         ),
-                      ],
-                    ),
-                    textColor: Colors.white,
+                      );
+                    },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Not register yet? ',style: TextStyle( color: Colors.white, fontSize: 13 )),
+                        const Text('Not register yet? ',style: TextStyle( color: Colors.white, fontSize: 13 )),
                         TextButton(
                           onPressed: (){
                             isLogin = false;
                             _loginUser();
                           },
-                          child: Text('Register'),
+                          child: const Text('Register'),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(errorMsg,style: TextStyle( color: Colors.red, fontSize: 20 )),
+                    child: Text(errorMsg,style: const TextStyle( color: Colors.red, fontSize: 20 )),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   Align(alignment: Alignment.bottomCenter,child: _buildFooterLogo())
                 ],
               ),
@@ -190,25 +182,14 @@ class _LoginPageState extends State<LoginPage> {
         if(uid != null){
           Navigator.pushReplacementNamed(context, ChatRoomPage.routeName);
         }
-      }catch(error){
+      } on FirebaseException catch(error){
         setState((){
-          errorMsg = error.toString();
+          errorMsg = error.message!;
         });
-        throw error;
+        rethrow;
       }
     }
   }
-
-  // _signInWithGoogle() async {
-  //   final GoogleSignInAccount googleUser = await googleSignIn.signIn();
-  //   final GoogleSignInAuthentication googleAuth =
-  //   await googleUser.authentication;
-  //
-  //   final AuthCredential credential = GoogleAuthProvider.getCredential(
-  //       idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-  //
-  //   final FirebaseUser user = (await firebaseAuth.signInWithCredential(credential)).user;
-  // }
 
   _buildFooterLogo() {
     return Column(

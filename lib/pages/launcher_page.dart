@@ -4,7 +4,7 @@ import 'package:chat_app/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 class LauncherPage extends StatefulWidget {
-  static final String routeName = "\launcher";
+  static const String routeName = "\launcher";
 
   @override
   _LauncherPageState createState() => _LauncherPageState();
@@ -34,24 +34,20 @@ class _LauncherPageState extends State<LauncherPage> {
             'images/launcher_icon.png',
             height: 250,
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             'Welcome to --- !',
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 28),
           ),
-          SizedBox(height: 20),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             'Team Chat Application',
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
-          SizedBox(
-            height: 30,
-          ),
-          Center(
+          const SizedBox(height: 30),
+          const Center(
             child: CircularProgressIndicator(),
           ),
         ],
