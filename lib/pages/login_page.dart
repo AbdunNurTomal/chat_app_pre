@@ -4,9 +4,9 @@ import 'package:chat_app/pages/chat_room_page.dart';
 import 'package:chat_app/utils/custom_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = "\login";
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Sign in to CHAT Room and continue',
+                    'Sign in to Chat Room and continue',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(color: Colors.white, fontSize: 28),
                   ),
@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                   FutureBuilder(
                     future: FirebaseAuthService.initializeFirebase(context: context),
                     builder: (context, snapshot) {
-                      print(snapshot.connectionState);
+                      //print(snapshot.connectionState);
                       if (snapshot.hasError) {
                         return const Text('Error initializing Firebase');
                       } else if (snapshot.connectionState == ConnectionState.done) {
@@ -180,7 +180,8 @@ class _LoginPageState extends State<LoginPage> {
           uid = await FirebaseAuthService.registerUser(email,password);
         }
         if(uid != null){
-          Navigator.pushReplacementNamed(context, ChatRoomPage.routeName);
+          //Navigator.pushReplacementNamed(context, ChatRoomPage.routeName);
+          Navigator.pushReplacementNamed(context, HomePage.routeName);
         }
       } on FirebaseException catch(error){
         setState((){
@@ -208,28 +209,4 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
-
-  // _buildTextFormField(TextEditingController controller, IconData icon,String labelText) {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-  //     decoration: BoxDecoration(color: secondaryColor, border: Border.all(color: Colors.blue)),
-  //     child: TextFormField(
-  //       controller: controller,
-  //       style: TextStyle(color: Colors.white),
-  //       decoration: InputDecoration(
-  //         contentPadding: EdgeInsets.symmetric(horizontal: 10),
-  //         labelText: labelText,
-  //         labelStyle: TextStyle(color: Colors.white),
-  //         icon: Icon(icon, color: Colors.white),
-  //         border: InputBorder.none
-  //       ),
-  //       validator: (value){
-  //         if(value==null || value.isEmpty){
-  //           return 'Please provide a valid email address.';
-  //         }
-  //         return null;
-  //       },
-  //     ),
-  //   );
-  // }
 }

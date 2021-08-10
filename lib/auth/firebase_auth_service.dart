@@ -1,4 +1,5 @@
 import 'package:chat_app/pages/chat_room_page.dart';
+import 'package:chat_app/pages/home_page.dart';
 import 'package:chat_app/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -48,7 +49,8 @@ class FirebaseAuthService{
       //    ),
       //  ),
       //);
-      Navigator.pushReplacementNamed(context, ChatRoomPage.routeName);
+      //Navigator.pushReplacementNamed(context, ChatRoomPage.routeName);
+      Navigator.pushReplacementNamed(context, HomePage.routeName);
     }
 
    return firebaseApp;
