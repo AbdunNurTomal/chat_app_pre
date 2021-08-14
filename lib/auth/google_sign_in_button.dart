@@ -1,8 +1,7 @@
-import 'package:chat_app/pages/chat_room_page.dart';
-import 'package:chat_app/pages/home_page.dart';
+//import 'package:chat_app/pages/users/user_profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import '../welcome_page.dart';
 import 'firebase_auth_service.dart';
 
 class GoogleSignInButton extends StatefulWidget {
@@ -18,44 +17,46 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
-      child: _isGoogleSigningIn ?
-          const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
-          ) : OutlinedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                  shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40)
-                      )
-                  ),
+      child: _isGoogleSigningIn
+          ? const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
+          : OutlinedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40))),
+              ),
+              onPressed: () async {
+                setState(() {
+                  _isGoogleSigningIn = true;
+                });
+
+                User? user = await FirebaseAuthService.signInWithGoogle(
+                    context: context);
+
+                setState(() {
+                  _isGoogleSigningIn = false;
+                });
+
+                if (user != null) {
+                  Navigator.pushReplacementNamed(
+                      context, WelcomePage.routeName);
+                  //Navigator.of(context).pushReplacement(
+                  //  MaterialPageRoute(
+                  //    builder: (context) => UserProfilePage(
+                  //      user: user,
+                  //    ),
+                  //  ),
+                  //);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Image(
+                  image: AssetImage("images/google_logo.png"),
+                  height: 35.0,
                 ),
-        onPressed: () async {
-          setState(() {
-            _isGoogleSigningIn = true;
-          });
-
-          User? user = await FirebaseAuthService.signInWithGoogle(context: context);
-          if (user != null) {
-            //Navigator.pushReplacementNamed(context, ChatRoomPage.routeName);
-            Navigator.pushReplacementNamed(context, HomePage.routeName);
-          }
-
-          //String? uid;
-          //uid = await FirebaseAuthService.signInWithGoogle(context: context);
-
-          setState(() {
-            _isGoogleSigningIn = false;
-          });
-        },
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Image(
-              image: AssetImage("images/google_logo.png"),
-              height: 35.0,
-            ),
-        )
-      ),
+              )),
     );
   }
 }

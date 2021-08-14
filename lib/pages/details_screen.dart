@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class UserDetailsScreen extends StatefulWidget {
+class DetailsScreen extends StatefulWidget {
   //const UserDetails({Key? key}) : super(key: key);
   static const String routeName = "\details_page";
 
   @override
-  _UserDetailsStateScreen createState() => _UserDetailsStateScreen();
+  _DetailsStateScreen createState() => _DetailsStateScreen();
 }
 
-class _UserDetailsStateScreen extends State<UserDetailsScreen> {
+class _DetailsStateScreen extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Details'),
+        title: Text('Details Page'),
       ),
     );
   }

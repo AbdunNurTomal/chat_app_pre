@@ -5,16 +5,14 @@ import 'package:websafe_svg/websafe_svg.dart';
 import 'counter_badge.dart';
 
 class SideMenuItem extends StatelessWidget {
-
-  SideMenuItem({
-      required this.isActive,
+  SideMenuItem(
+      {required this.isActive,
       this.isHover = false,
       required this.itemCount,
       this.showBorder = true,
       required this.iconSrc,
       required this.title,
-      required this.press
-  });
+      required this.press});
   //const SideMenuItem({
   //  Key key,
   //  this.isActive,
@@ -41,9 +39,9 @@ class SideMenuItem extends StatelessWidget {
           children: [
             (isActive || isHover)
                 ? WebsafeSvg.asset(
-              "assets/Icons/Angle right.svg",
-              width: 15,
-            )
+                    "assets/Icons/Angle right.svg",
+                    width: 15,
+                  )
                 : SizedBox(width: 15),
             SizedBox(width: kDefaultPadding / 4),
             Expanded(
@@ -51,10 +49,10 @@ class SideMenuItem extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 15, right: 5),
                 decoration: showBorder
                     ? BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Color(0xFFDFE2EF)),
-                  ),
-                )
+                        border: Border(
+                          bottom: BorderSide(color: Color(0xFFDFE2EF)),
+                        ),
+                      )
                     : null,
                 child: Row(
                   children: [
@@ -67,9 +65,9 @@ class SideMenuItem extends StatelessWidget {
                     Text(
                       title,
                       style: Theme.of(context).textTheme.button!.copyWith(
-                        color:
-                        (isActive || isHover) ? kTextColor : kGrayColor,
-                      ),
+                            color:
+                                (isActive || isHover) ? kTextColor : kGrayColor,
+                          ),
                     ),
                     Spacer(),
                     if (itemCount != null) CounterBadge(count: itemCount)

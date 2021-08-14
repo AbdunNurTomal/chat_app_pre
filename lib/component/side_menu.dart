@@ -1,4 +1,8 @@
 import 'package:chat_app/component/side_menu_item.dart';
+import 'package:chat_app/pages/home_page.dart';
+import 'package:chat_app/pages/message/chat_room_page.dart';
+import 'package:chat_app/pages/message/message_home_page.dart';
+import 'package:chat_app/pages/weather/weather_page.dart';
 import 'package:chat_app/utils/constants.dart';
 import 'package:chat_app/utils/responsive_screen.dart';
 import 'package:flutter/foundation.dart';
@@ -27,7 +31,7 @@ class _SideMenuState extends State<SideMenu> {
               Row(
                 children: [
                   Image.asset(
-                    "assets/images/Logo Outlook.png",
+                    "assets/images/pqc.png",
                     width: 46,
                   ),
                   Spacer(),
@@ -38,32 +42,40 @@ class _SideMenuState extends State<SideMenu> {
               SizedBox(height: kDefaultPadding),
               // Menu Items
               SideMenuItem(
-                press: () {},
-                title: "Inbox",
+                press: () {
+                  Navigator.pushReplacementNamed(
+                      context, WeatherPage.routeName);
+                },
+                title: "Weather",
                 iconSrc: "assets/Icons/Inbox.svg",
                 isActive: true,
-                itemCount: 3,
+                itemCount: 0,
               ),
               SideMenuItem(
-                press: () {},
-                title: "Sent",
+                press: () {
+                  Navigator.pushReplacementNamed(
+                      context, MessageHomePage.routeName);
+                },
+                title: "Message",
                 iconSrc: "assets/Icons/Send.svg",
                 isActive: false,
                 itemCount: 0,
               ),
               SideMenuItem(
                 press: () {},
-                title: "Drafts",
+                title: "Contact",
                 iconSrc: "assets/Icons/File.svg",
                 isActive: false,
                 itemCount: 0,
               ),
               SideMenuItem(
-                press: () {},
-                title: "Deleted",
-                iconSrc: "assets/Icons/Trash.svg",
+                press: () {
+                  Navigator.pushReplacementNamed(context, HomePage.routeName);
+                },
+                title: "Users",
+                iconSrc: "assets/Icons/File.svg",
                 isActive: false,
-                itemCount: 0,
+                itemCount: 2,
                 showBorder: false,
               ),
 

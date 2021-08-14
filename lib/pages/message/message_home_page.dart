@@ -1,34 +1,32 @@
 import 'package:chat_app/component/side_menu.dart';
-import 'package:chat_app/pages/details_screen.dart';
+import 'package:chat_app/pages/message/chat_room_page.dart';
 import 'package:chat_app/utils/responsive_screen.dart';
 import 'package:flutter/material.dart';
+import 'list_user_in_message_screen.dart';
 
-import 'list_screen.dart';
-
-class HomePage extends StatefulWidget {
-  //const HomePage({Key? key}) : super(key: key);
-  static const String routeName = "\home_page";
+class MessageHomePage extends StatefulWidget {
+  static const String routeName = "\message_home_page";
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _MessageHomePageState createState() => _MessageHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MessageHomePageState extends State<MessageHomePage> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
     return Scaffold(
       body: Responsive(
-        mobile: ListScreen(),
+        mobile: ListUserInMessageScreen(),
         tablet: Row(
           children: [
             Expanded(
               flex: 6,
-              child: ListScreen(),
+              child: ListUserInMessageScreen(),
             ),
             Expanded(
               flex: 9,
-              child: DetailsScreen(),
+              child: ChatRoomPage(),
             ),
           ],
         ),
@@ -42,11 +40,11 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               flex: _size.width > 1340 ? 3 : 5,
-              child: ListScreen(),
+              child: ListUserInMessageScreen(),
             ),
             Expanded(
               flex: _size.width > 1340 ? 8 : 10,
-              child: DetailsScreen(),
+              child: ChatRoomPage(),
             ),
           ],
         ),

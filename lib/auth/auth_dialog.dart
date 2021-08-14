@@ -1,6 +1,7 @@
 import 'package:chat_app/pages/home_page.dart';
 import 'package:chat_app/utils/custom_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -70,6 +71,7 @@ class _AuthDialogState extends State<AuthDialog> {
     passwordController.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
     emailController = TextEditingController();
@@ -101,19 +103,26 @@ class _AuthDialogState extends State<AuthDialog> {
                 Text(
                   'Sign in to Chat Room and continue',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.openSans(color: Colors.white, fontSize: 28),
+                  style:
+                      GoogleFonts.openSans(color: Colors.white, fontSize: 28),
                 ),
                 const SizedBox(height: 20),
                 Text(
                   'Enter your email and password below to continue to the Team and let the begin!',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.openSans(color: Colors.white, fontSize: 14),
+                  style:
+                      GoogleFonts.openSans(color: Colors.white, fontSize: 14),
                 ),
-                const SizedBox(height: 50,),
+                const SizedBox(
+                  height: 50,
+                ),
                 //_buildTextFormField(emailController, Icons.account_circle, 'Email Address'),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(color: CustomColors.secondaryColor, border: Border.all(color: Colors.blue)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: CustomColors.secondaryColor,
+                      border: Border.all(color: Colors.blue)),
                   child: TextFormField(
                     controller: emailController,
                     style: const TextStyle(color: Colors.white),
@@ -122,10 +131,9 @@ class _AuthDialogState extends State<AuthDialog> {
                         labelText: 'Email Address',
                         labelStyle: TextStyle(color: Colors.white),
                         icon: Icon(Icons.account_circle, color: Colors.white),
-                        border: InputBorder.none
-                    ),
-                    validator: (value){
-                      if(value==null || value.isEmpty){
+                        border: InputBorder.none),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
                         return 'Please provide a valid email address.';
                       }
                       return null;
@@ -135,8 +143,11 @@ class _AuthDialogState extends State<AuthDialog> {
                 const SizedBox(height: 20),
                 //_buildTextFormField(passwordController, Icons.lock, 'Password'),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(color: CustomColors.secondaryColor, border: Border.all(color: Colors.blue)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: CustomColors.secondaryColor,
+                      border: Border.all(color: Colors.blue)),
                   child: TextFormField(
                     controller: passwordController,
                     style: const TextStyle(color: Colors.white),
@@ -145,10 +156,9 @@ class _AuthDialogState extends State<AuthDialog> {
                         labelText: 'Password',
                         labelStyle: TextStyle(color: Colors.white),
                         icon: Icon(Icons.lock, color: Colors.white),
-                        border: InputBorder.none
-                    ),
-                    validator: (value){
-                      if(value==null || value.isEmpty){
+                        border: InputBorder.none),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
                         return 'Please provide a valid password.';
                       }
                       return null;
@@ -165,17 +175,20 @@ class _AuthDialogState extends State<AuthDialog> {
                     _loginUser();
                   },
                   color: CustomColors.logoGreen,
-                  child: const Text('Login',style: TextStyle(color: Colors.white, fontSize: 16)),
+                  child: const Text('Login',
+                      style: TextStyle(color: Colors.white, fontSize: 16)),
                   textColor: Colors.white,
                 ),
                 const SizedBox(height: 20),
                 FutureBuilder(
-                  future: FirebaseAuthService.initializeFirebase(context: context),
+                  future:
+                      FirebaseAuthService.initializeFirebase(context: context),
                   builder: (context, snapshot) {
                     //print(snapshot.connectionState);
                     if (snapshot.hasError) {
                       return const Text('Error initializing Firebase');
-                    } else if (snapshot.connectionState == ConnectionState.done) {
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
                       return GoogleSignInButton();
                     }
                     return const CircularProgressIndicator(
@@ -191,9 +204,10 @@ class _AuthDialogState extends State<AuthDialog> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Not register yet? ',style: TextStyle( color: Colors.white, fontSize: 13 )),
+                      const Text('Not register yet? ',
+                          style: TextStyle(color: Colors.white, fontSize: 13)),
                       TextButton(
-                        onPressed: (){
+                        onPressed: () {
                           isLogin = false;
                           _loginUser();
                         },
@@ -205,10 +219,13 @@ class _AuthDialogState extends State<AuthDialog> {
                 const SizedBox(height: 5),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(errorMsg,style: const TextStyle( color: Colors.red, fontSize: 20 )),
+                  child: Text(errorMsg,
+                      style: const TextStyle(color: Colors.red, fontSize: 20)),
                 ),
                 const SizedBox(height: 5),
-                Align(alignment: Alignment.bottomCenter,child: _buildFooterLogo())
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _buildFooterLogo())
               ],
             ),
           ),
@@ -217,24 +234,25 @@ class _AuthDialogState extends State<AuthDialog> {
     );
   }
 
-  void _loginUser() async{
-    if(_formKey.currentState!.validate()){
+  void _loginUser() async {
+    if (_formKey.currentState!.validate()) {
       final email = emailController.text;
       final password = passwordController.text;
 
-      try{
-        String? uid;
-        if(isLogin){
-          uid = await FirebaseAuthService.loginUser(email,password);
-        }else{
-          uid = await FirebaseAuthService.registerUser(email,password);
+      try {
+        User? user;
+        if (isLogin) {
+          user =
+              await FirebaseAuthService.loginUser(email: email, pass: password);
+        } else {
+          //uid = await FirebaseAuthService.registerUser(email,password);
         }
-        if(uid != null){
+        if (user != null) {
           //Navigator.pushReplacementNamed(context, ChatRoomPage.routeName);
           Navigator.pushReplacementNamed(context, HomePage.routeName);
         }
-      } on FirebaseException catch(error){
-        setState((){
+      } on FirebaseException catch (error) {
+        setState(() {
           errorMsg = error.message!;
         });
         rethrow;
