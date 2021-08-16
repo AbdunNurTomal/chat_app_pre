@@ -1,7 +1,12 @@
 import 'dart:io';
 import 'package:chat_app/utils/custom_color.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUp extends StatefulWidget {
   //const SignUp({ Key? key }) : super(key: key);
@@ -45,6 +50,53 @@ class _SignUpState extends State<SignUp> {
     _phoneNumberController.dispose();
     _phoneNumberFocusNode.dispose();
     super.dispose();
+  }
+
+  void _submitFormOnSignUp() async {
+    final isValid = _signUpFormKey.currentState!.validate();
+    if (isValid) {
+      if (imageFile == null) {
+        GlobalMethod.showErrorDialog(
+            error: 'Please pick an image', ctx: context);
+        return;
+      }
+
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        await _auth.createUserWithEmailAndPassword(
+            email: _emailTextController.text.trim().toLowerCase(),
+            password: _passTextController.text.trim());
+        final User? user = _auth.currentUser;
+        final _uid = user!.uid;
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('userImages')
+            .child(_uid + '.jpg');
+        await ref.putFile(imageFile!);
+        imageUrl = await ref.getDownloadURL();
+        FirebaseFirestore.instance.collection('users').doc(_uid).set({
+          'id': _uid,
+          'name': _fullNameController.text,
+          'email': _emailTextController.text,
+          'userImage': imageUrl,
+          'phoneNumber': _phoneNumberController.text,
+          'positionInCompany': _postitionCPTextController.text,
+          'createdAt': Timestamp.now(),
+        });
+        Navigator.canPop(context) ? Navigator.pop(context) : null;
+      } catch (errorrr) {
+        setState(() {
+          _isLoading = false;
+        });
+        GlobalMethod.showErrorDialog(error: errorrr.toString(), ctx: context);
+      }
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -388,5 +440,152 @@ class _SignUpState extends State<SignUp> {
             )
         )
     );
+  }
+  void _showImageDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Please choose an option'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                  onTap: () {
+                    _getFromCamera();
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          Icons.camera,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      Text(
+                        'Camera',
+                        style: TextStyle(color: Colors.purple),
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    _getFromGallery();
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          Icons.image,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      Text(
+                        'Gallery',
+                        style: TextStyle(color: Colors.purple),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxHeight: 1080,
+      maxWidth: 1080,
+    );
+    // setState(() {
+    //   imageFile = File(pickedFile!.path);
+    // });
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _getFromCamera() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxHeight: 1080,
+      maxWidth: 1080,
+    );
+    // setState(() {
+    //   imageFile = File(pickedFile!.path);
+    // });
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _cropImage(filePath) async {
+    File? croppedImage = await ImageCropper.cropImage(
+        sourcePath: filePath, maxHeight: 1080, maxWidth: 1080);
+    if (croppedImage != null) {
+      setState(() {
+        imageFile = croppedImage;
+      });
+    }
+  }
+
+  void _showTaskCategoriesDialog({required Size size}) {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text(
+              'choose your Jobs',
+              style: TextStyle(fontSize: 20, color: Colors.pink.shade800),
+            ),
+            content: Container(
+              width: size.width * 0.9,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: Constants.jobsList.length,
+                  itemBuilder: (ctxx, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          _postitionCPTextController.text =
+                              Constants.jobsList[index];
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.check_circle_rounded,
+                            color: Colors.red.shade200,
+                          ),
+                          // SizedBox(width: 10,),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              Constants.jobsList[index],
+                              style: TextStyle(
+                                  color: Constants.darkBlue,
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.canPop(context) ? Navigator.pop(context) : null;
+                },
+                child: Text('Cancel'),
+              ),
+            ],
+          );
+        });
   }
 }
