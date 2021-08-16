@@ -1,3 +1,4 @@
+import 'package:chat_app/auth/forget_password.dart';
 import 'package:chat_app/pages/home_page.dart';
 import 'package:chat_app/utils/custom_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -101,7 +102,7 @@ class _AuthDialogState extends State<AuthDialog> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Sign in to Chat Room and continue',
+                  'Login',
                   textAlign: TextAlign.center,
                   style:
                       GoogleFonts.openSans(color: Colors.white, fontSize: 28),
@@ -165,7 +166,27 @@ class _AuthDialogState extends State<AuthDialog> {
                     },
                   ),
                 ),
-                const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          isLogin = false;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgetPasswordScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text('Forget Password'),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 5),
                 MaterialButton(
                   elevation: 0,
                   minWidth: double.maxFinite,

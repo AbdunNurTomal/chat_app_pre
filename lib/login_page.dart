@@ -14,7 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
+  final _loginFormKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         backgroundColor: CustomColors.primaryColor,
         body: Form(
-            key: _formKey,
+            key: _loginFormKey,
             child: Container(
               alignment: Alignment.topCenter,
               margin: const EdgeInsets.symmetric(horizontal: 30),
@@ -112,7 +112,23 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              isLogin = false;
+                              _loginUser();
+                            },
+                            child: const Text('Forget Password'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     MaterialButton(
                       elevation: 0,
                       minWidth: double.maxFinite,
@@ -182,7 +198,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _loginUser() async {
-    if (_formKey.currentState!.validate()) {
+    final isValid = _loginFormKey.currentState!.validate();
+    if (isValid) {
       final email = emailController.text;
       final password = passwordController.text;
       User? user;
@@ -230,4 +247,6 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
+
+  //_ForgetPasswordScreen() {}
 }
