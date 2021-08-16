@@ -47,7 +47,7 @@ class WelcomePage extends StatelessWidget {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                  child: Text('Welcome To Team'),
+                  child: Text('Hello Universe'),
                 ),
               ],
             ),

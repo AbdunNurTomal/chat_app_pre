@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Experiment',
         theme: ThemeData(
-          primarySwatch: Colors.indigo,
+          primarySwatch: Colors.teal,
         ),
         home: LauncherPage(),
         routes: {
