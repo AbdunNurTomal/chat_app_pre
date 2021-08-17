@@ -1,8 +1,8 @@
-import 'package:chat_app/component/side_menu.dart';
-import 'package:chat_app/pages/details_screen.dart';
-import 'package:chat_app/utils/responsive_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../component/side_menu.dart';
+import '../pages/details_screen.dart';
+import '../utils/responsive_screen.dart';
 import 'list_screen.dart';
 
 class HomePage extends StatefulWidget {

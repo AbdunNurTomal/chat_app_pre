@@ -1,9 +1,10 @@
-import 'package:chat_app/component/side_menu.dart';
-import 'package:chat_app/pages/weather/weather_header_bar.dart';
-import 'package:chat_app/utils/constants.dart';
-import 'package:chat_app/utils/responsive_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../../component/side_menu.dart';
+import '../../pages/weather/weather_header_bar.dart';
+import '../../utils/constants.dart';
+import '../../utils/custom_color.dart';
 
 class WeatherPage extends StatefulWidget {
   //const WeatherPage({Key? key}) : super(key: key);
@@ -25,15 +26,15 @@ class _WeatherPageState extends State<WeatherPage> {
           child: SideMenu(),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: kIsWeb ? kDefaultPadding : 0),
-          color: kBgDarkColor,
+          padding: EdgeInsets.only(top: kIsWeb ? Constants.kDefaultPadding : 0),
+          color: CustomColors.kBgDarkColor,
           child: SafeArea(
             right: false,
             child: Column(children: [
               // This is our Header bar
               WeatherHeaderBar(scaffoldKey: _scaffoldKey),
 
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: Constants.kDefaultPadding),
               Text('Weather Page')
             ]),
           ),

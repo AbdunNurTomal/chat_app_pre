@@ -1,9 +1,10 @@
-import 'package:chat_app/auth/auth_dialog.dart';
-import 'package:chat_app/auth/firebase_auth_service.dart';
-import 'package:chat_app/login_page.dart';
-import 'package:chat_app/utils/responsive_screen.dart';
-import 'package:chat_app/welcome_page.dart';
 import 'package:flutter/material.dart';
+
+import 'auth/auth_dialog.dart';
+import 'auth/firebase_auth_service.dart';
+import 'auth/login_page.dart';
+import 'utils/responsive_screen.dart';
+import 'welcome_page.dart';
 
 class LauncherPage extends StatefulWidget {
   static const String routeName = "\launcher";

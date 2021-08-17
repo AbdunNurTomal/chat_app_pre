@@ -1,12 +1,13 @@
-import 'package:chat_app/auth/auth_dialog.dart';
-import 'package:chat_app/launcher_page.dart';
-import 'package:chat_app/login_page.dart';
-import 'package:chat_app/pages/message/message_home_page.dart';
-//import 'package:chat_app/pages/users/user_profile_page.dart';
-import 'package:chat_app/pages/weather/weather_page.dart';
-import 'package:chat_app/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import 'auth/auth_dialog.dart';
+import 'launcher_page.dart';
+import 'auth/login_page.dart';
+import 'pages/message/message_home_page.dart';
+//import 'pages/users/user_profile_page.dart';
+import 'pages/weather/weather_page.dart';
+import 'welcome_page.dart';
 //import 'auth/auth_dialog.dart';
 
 void main() async {

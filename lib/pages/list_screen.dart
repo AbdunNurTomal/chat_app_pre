@@ -1,10 +1,11 @@
-import 'package:chat_app/component/side_menu.dart';
-import 'package:chat_app/pages/list_header_scrren.dart';
-import 'package:chat_app/utils/constants.dart';
-import 'package:chat_app/utils/responsive_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
+
+import '../component/side_menu.dart';
+import '../pages/list_header_scrren.dart';
+import '../utils/constants.dart';
+import '../utils/custom_color.dart';
 
 class ListScreen extends StatefulWidget {
   //const ListOfUsersScreen({Key? key}) : super(key: key);
@@ -25,18 +26,18 @@ class _ListStateScreen extends State<ListScreen> {
         child: SideMenu(),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: kIsWeb ? kDefaultPadding : 0),
-        color: kBgDarkColor,
+        padding: EdgeInsets.only(top: kIsWeb ? Constants.kDefaultPadding : 0),
+        color: CustomColors.kBgDarkColor,
         child: SafeArea(
           right: false,
           child: Column(
             children: [
               // This is our Seearch bar
               ListHeaderScrren(scaffoldKey: _scaffoldKey),
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: Constants.kDefaultPadding),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Constants.kDefaultPadding),
                 child: Row(
                   children: [
                     WebsafeSvg.asset(
@@ -61,7 +62,7 @@ class _ListStateScreen extends State<ListScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: Constants.kDefaultPadding),
               //Expanded(
               //  child: ListView.builder(
               //    itemCount: emails.length,

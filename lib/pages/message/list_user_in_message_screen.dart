@@ -1,9 +1,11 @@
-import 'package:chat_app/component/side_menu.dart';
-import 'package:chat_app/pages/message/list_user_in_message_header_screen.dart';
-import 'package:chat_app/utils/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
+
+import '../../component/side_menu.dart';
+import '../../pages/message/list_user_in_message_header_screen.dart';
+import '../../utils/constants.dart';
+import '../../utils/custom_color.dart';
 
 class ListUserInMessageScreen extends StatefulWidget {
   static const String routeName = "\list_of_users";
@@ -24,18 +26,18 @@ class _ListUserInMessageStateScreen extends State<ListUserInMessageScreen> {
         child: SideMenu(),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: kIsWeb ? kDefaultPadding : 0),
-        color: kBgDarkColor,
+        padding: EdgeInsets.only(top: kIsWeb ? Constants.kDefaultPadding : 0),
+        color: CustomColors.kBgDarkColor,
         child: SafeArea(
           right: false,
           child: Column(
             children: [
               // This is our Seearch bar
               ListUserInMessageHeaderScreen(scaffoldKey: _scaffoldKey),
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: Constants.kDefaultPadding),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Constants.kDefaultPadding),
                 child: Row(
                   children: [
                     WebsafeSvg.asset(
@@ -60,7 +62,7 @@ class _ListUserInMessageStateScreen extends State<ListUserInMessageScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: Constants.kDefaultPadding),
               //Expanded(
               //  child: ListView.builder(
               //    itemCount: emails.length,

@@ -1,12 +1,13 @@
-import 'package:chat_app/component/side_menu_item.dart';
-import 'package:chat_app/pages/home_page.dart';
-import 'package:chat_app/pages/message/chat_room_page.dart';
-import 'package:chat_app/pages/message/message_home_page.dart';
-import 'package:chat_app/pages/weather/weather_page.dart';
-import 'package:chat_app/utils/constants.dart';
-import 'package:chat_app/utils/responsive_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../component/side_menu_item.dart';
+import '../pages/home_page.dart';
+import '../pages/message/message_home_page.dart';
+import '../pages/weather/weather_page.dart';
+import '../utils/constants.dart';
+import '../utils/custom_color.dart';
+import '../utils/responsive_screen.dart';
 
 class SideMenu extends StatefulWidget {
   //const SideMenu({Key? key}) : super(key: key);
@@ -21,11 +22,11 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) {
     return Container(
       height: double.infinity,
-      padding: EdgeInsets.only(top: kIsWeb ? kDefaultPadding : 0),
-      color: kBgLightColor,
+      padding: EdgeInsets.only(top: kIsWeb ? Constants.kDefaultPadding : 0),
+      color: CustomColors.kBgLightColor,
       child: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+          padding: EdgeInsets.symmetric(horizontal: Constants.kDefaultPadding),
           child: Column(
             children: [
               Row(
@@ -39,7 +40,7 @@ class _SideMenuState extends State<SideMenu> {
                   if (!Responsive.isDesktop(context)) CloseButton(),
                 ],
               ),
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: Constants.kDefaultPadding),
               // Menu Items
               SideMenuItem(
                 press: () {
@@ -79,7 +80,7 @@ class _SideMenuState extends State<SideMenu> {
                 showBorder: false,
               ),
 
-              SizedBox(height: kDefaultPadding * 2),
+              SizedBox(height: Constants.kDefaultPadding * 2),
               // Tags
               //Tags(),
             ],

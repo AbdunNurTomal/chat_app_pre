@@ -1,4 +1,5 @@
-import 'package:chat_app/utils/constants.dart';
+import 'utils/constants.dart';
+import 'utils/custom_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'component/side_menu.dart';
@@ -19,8 +20,8 @@ class WelcomePage extends StatelessWidget {
           child: SideMenu(),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: kIsWeb ? kDefaultPadding : 0),
-          color: kBgDarkColor,
+          padding: EdgeInsets.only(top: kIsWeb ? Constants.kDefaultPadding : 0),
+          color: CustomColors.kBgDarkColor,
           child: SafeArea(
             right: false,
             child: Column(
@@ -43,10 +44,10 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: kDefaultPadding),
+                SizedBox(height: Constants.kDefaultPadding),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: Constants.kDefaultPadding),
                   child: Text('Hello Universe'),
                 ),
               ],

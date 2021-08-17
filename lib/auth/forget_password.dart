@@ -1,6 +1,8 @@
-import 'package:chat_app/utils/custom_color.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../utils/custom_color.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   //const ForgetPassword({ Key? key }) : super(key: key);
@@ -44,7 +46,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  'Email address',
+                  'Enter yout Email address',
                   textAlign: TextAlign.center,
                   style:
                       GoogleFonts.openSans(color: Colors.white, fontSize: 14),
@@ -58,11 +60,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       border: Border.all(color: Colors.blue)),
                   child: TextFormField(
                     controller: _forgetPassTextController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
+                    style: GoogleFonts.openSans(color: Colors.white),
+                    decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         labelText: 'Email Address',
-                        labelStyle: TextStyle(color: Colors.white),
+                        labelStyle: GoogleFonts.openSans(color: Colors.white),
                         icon: Icon(Icons.email, color: Colors.white),
                         border: InputBorder.none),
                     validator: (value) {
@@ -73,7 +75,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     },
                   ),
                 ),
-                SizedBox(height: 60),
+                SizedBox(height: 50),
                 MaterialButton(
                   elevation: 0,
                   minWidth: double.maxFinite,
@@ -82,8 +84,34 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   color: CustomColors.logoGreen,
                   child: Padding(
                     padding: const EdgeInsets.all(14.0),
-                    child: const Text('Reset now',
-                        style: TextStyle(color: Colors.white, fontSize: 16)),
+                    child: Text('Reset now',
+                        style: GoogleFonts.openSans(
+                            color: Colors.white, fontSize: 16)),
+                  ),
+                ),
+                SizedBox(height: 20),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Remebered password',
+                        style: GoogleFonts.openSans(
+                            color: Colors.white, fontSize: 14),
+                      ),
+                      TextSpan(text: '    '),
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Navigator.canPop(context)
+                              ? Navigator.pop(context)
+                              : null,
+                        text: 'Login',
+                        style: GoogleFonts.openSans(
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue.shade300,
+                            //fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                    ],
                   ),
                 ),
               ],

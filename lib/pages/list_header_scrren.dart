@@ -1,7 +1,9 @@
-import 'package:chat_app/utils/constants.dart';
-import 'package:chat_app/utils/responsive_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
+
+import '../utils/constants.dart';
+import '../utils/custom_color.dart';
+import '../utils/responsive_screen.dart';
 
 class ListHeaderScrren extends StatelessWidget {
   const ListHeaderScrren({
@@ -15,7 +17,8 @@ class ListHeaderScrren extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+      padding:
+          const EdgeInsets.symmetric(horizontal: Constants.kDefaultPadding),
       child: Row(
         children: [
           // Once user click the menu icon the menu shows like drawer
@@ -33,10 +36,11 @@ class ListHeaderScrren extends StatelessWidget {
               onChanged: (value) {},
               decoration: InputDecoration(
                 hintText: "Search",
-                fillColor: kBgLightColor,
+                fillColor: CustomColors.kBgLightColor,
                 filled: true,
                 suffixIcon: Padding(
-                  padding: const EdgeInsets.all(kDefaultPadding * 0.75), //15
+                  padding: const EdgeInsets.all(
+                      Constants.kDefaultPadding * 0.75), //15
                   child: WebsafeSvg.asset(
                     "assets/Icons/Search.svg",
                     width: 24,

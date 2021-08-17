@@ -1,16 +1,21 @@
 import 'dart:io';
-import 'package:chat_app/utils/custom_color.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:websafe_svg/websafe_svg.dart';
+
+import '../utils/custom_color.dart';
+import '../utils/global_methods.dart';
 
 class SignUp extends StatefulWidget {
   //const SignUp({ Key? key }) : super(key: key);
-  
+
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -101,6 +106,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    //Size size = MediaQuery.of(context).size;
     return Dialog(
         backgroundColor: CustomColors.primaryColor,
         shape: RoundedRectangleBorder(
@@ -108,339 +114,372 @@ class _SignUpState extends State<SignUp> {
         ),
         child: SingleChildScrollView(
             child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Container(
-            width: 400,
-            color: CustomColors.primaryColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                'SignUp',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30),
-              ),
-              SizedBox(height: 10),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Already have an account',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                    ),
-                    TextSpan(text: '    '),
-                    TextSpan(
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => Navigator.canPop(context)
-                            ? Navigator.pop(context)
-                            : null,
-                      text: 'Login',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.blue.shade300,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 40),
-              Form(
-                key: _signUpFormKey,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          flex: 2,
-                          child: TextFormField(
-                            textInputAction: TextInputAction.next,
-                            onEditingComplete: () => FocusScope.of(context)
-                                .requestFocus(_emailFocusNode),
-                            keyboardType: TextInputType.name,
-                            controller: _fullNameController,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "This Field is missing";
-                              } else {
-                                return null;
-                              }
-                            },
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              hintText: 'Full name',
-                              hintStyle: TextStyle(color: Colors.white),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              errorBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.red),
-                              ),
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                    width: 400,
+                    color: CustomColors.primaryColor,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'SignUp',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.openSans(
+                                color: Colors.white, fontSize: 28),
+                          ),
+                          const SizedBox(height: 10),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Already have an account',
+                                  style: GoogleFonts.openSans(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                                TextSpan(text: '    '),
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => Navigator.canPop(context)
+                                        ? Navigator.pop(context)
+                                        : null,
+                                  text: 'Login',
+                                  style: GoogleFonts.openSans(
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.blue.shade300,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        Stack(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: size.width * 0.24,
-                                height: size.width * 0.24,
-                                decoration: BoxDecoration(
-                                  border:
-                                      Border.all(width: 1, color: Colors.white),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: imageFile == null
-                                      ? Image.network(
-                                          'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png',
-                                          fit: BoxFit.fill,
-                                        )
-                                      : Image.file(
-                                          imageFile!,
-                                          fit: BoxFit.fill,
+                          SizedBox(height: 40),
+                          Form(
+                            key: _signUpFormKey,
+                            child: Column(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        width: 200,
+                                        height: 200,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 1, color: Colors.white),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
                                         ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: imageFile == null
+                                              ? WebsafeSvg.asset(
+                                                  "assets/Icons/avatar.svg",
+                                                  width: 25,
+                                                )
+                                              //Image.network(
+                                              //    'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png',
+                                              //    fit: BoxFit.fill,
+                                              //  )
+                                              : Image.file(
+                                                  imageFile!,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: InkWell(
+                                        onTap: () {
+                                          _showImageDialog();
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.pink,
+                                            border: Border.all(
+                                                width: 2, color: Colors.white),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              imageFile == null
+                                                  ? Icons.add_a_photo
+                                                  : Icons.edit_outlined,
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: InkWell(
-                                onTap: () {
-                                  _showImageDialog();
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.pink,
-                                    border: Border.all(
-                                        width: 2, color: Colors.white),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      imageFile == null
-                                          ? Icons.add_a_photo
-                                          : Icons.edit_outlined,
-                                      color: Colors.white,
-                                      size: 18,
+                                SizedBox(height: 20),
+                                TextFormField(
+                                  textInputAction: TextInputAction.next,
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context)
+                                          .requestFocus(_emailFocusNode),
+                                  keyboardType: TextInputType.name,
+                                  controller: _fullNameController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "This Field is missing";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    hintText: 'Full name',
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    errorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
                                     ),
                                   ),
                                 ),
-                              ),
+                                SizedBox(height: 20),
+                                //Email
+                                TextFormField(
+                                  textInputAction: TextInputAction.next,
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context)
+                                          .requestFocus(_passFocusNode),
+                                  focusNode: _emailFocusNode,
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: _emailTextController,
+                                  validator: (value) {
+                                    if (value!.isEmpty ||
+                                        !value.contains("@")) {
+                                      return "Please enter a valid Email adress";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  style:
+                                      GoogleFonts.openSans(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    hintStyle: GoogleFonts.openSans(
+                                        color: Colors.white),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    errorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                //Password
+                                TextFormField(
+                                  textInputAction: TextInputAction.next,
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context)
+                                          .requestFocus(_phoneNumberFocusNode),
+                                  focusNode: _passFocusNode,
+                                  obscureText: _obscureText,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  controller: _passTextController,
+                                  validator: (value) {
+                                    if (value!.isEmpty || value.length < 7) {
+                                      return "Please enter a valid password";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  style:
+                                      GoogleFonts.openSans(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _obscureText = !_obscureText;
+                                        });
+                                      },
+                                      child: Icon(
+                                        _obscureText
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    hintText: 'Password',
+                                    hintStyle: GoogleFonts.openSans(
+                                        color: Colors.white),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    errorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                TextFormField(
+                                  focusNode: _phoneNumberFocusNode,
+                                  textInputAction: TextInputAction.next,
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context)
+                                          .requestFocus(_postitionCPFocusNode),
+                                  keyboardType: TextInputType.phone,
+                                  controller: _phoneNumberController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "This Field is missing";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  onChanged: (v) {
+                                    // print(' Phone number ${_phoneNumberController.text}');
+                                  },
+                                  style:
+                                      GoogleFonts.openSans(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    hintText: 'Phone number',
+                                    hintStyle: GoogleFonts.openSans(
+                                        color: Colors.white),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    errorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                //Position in the company
+                                GestureDetector(
+                                  onTap: () {
+                                    //_showTaskCategoriesDialog(size: 200.0);
+                                  },
+                                  child: TextFormField(
+                                    enabled: false,
+                                    textInputAction: TextInputAction.done,
+                                    onEditingComplete: () =>
+                                        _submitFormOnSignUp,
+                                    focusNode: _postitionCPFocusNode,
+                                    keyboardType: TextInputType.name,
+                                    controller: _postitionCPTextController,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "This field is missing";
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    style: GoogleFonts.openSans(
+                                        color: Colors.white),
+                                    decoration: InputDecoration(
+                                      hintText: 'Position in the company',
+                                      hintStyle: GoogleFonts.openSans(
+                                          color: Colors.white),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                      errorBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.red),
+                                      ),
+                                      disabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    //Email
-                    TextFormField(
-                      textInputAction: TextInputAction.next,
-                      onEditingComplete: () =>
-                          FocusScope.of(context).requestFocus(_passFocusNode),
-                      focusNode: _emailFocusNode,
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailTextController,
-                      validator: (value) {
-                        if (value!.isEmpty || !value.contains("@")) {
-                          return "Please enter a valid Email adress";
-                        } else {
-                          return null;
-                        }
-                      },
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: 'Email',
-                        hintStyle: TextStyle(color: Colors.white),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        errorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    //Password
-                    TextFormField(
-                      textInputAction: TextInputAction.next,
-                      onEditingComplete: () => FocusScope.of(context)
-                          .requestFocus(_phoneNumberFocusNode),
-                      focusNode: _passFocusNode,
-                      obscureText: _obscureText,
-                      keyboardType: TextInputType.visiblePassword,
-                      controller: _passTextController,
-                      validator: (value) {
-                        if (value!.isEmpty || value.length < 7) {
-                          return "Please enter a valid password";
-                        } else {
-                          return null;
-                        }
-                      },
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _obscureText = !_obscureText;
-                            });
-                          },
-                          child: Icon(
-                            _obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Colors.white,
                           ),
-                        ),
-                        hintText: 'Password',
-                        hintStyle: TextStyle(color: Colors.white),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        errorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    TextFormField(
-                      focusNode: _phoneNumberFocusNode,
-                      textInputAction: TextInputAction.next,
-                      onEditingComplete: () => FocusScope.of(context)
-                          .requestFocus(_postitionCPFocusNode),
-                      keyboardType: TextInputType.phone,
-                      controller: _phoneNumberController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "This Field is missing";
-                        } else {
-                          return null;
-                        }
-                      },
-                      onChanged: (v) {
-                        // print(' Phone number ${_phoneNumberController.text}');
-                      },
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: 'Phone number',
-                        hintStyle: TextStyle(color: Colors.white),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        errorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    //Position in the company
+                          SizedBox(height: 40),
+                          _isLoading
+                              ? Center(
+                                  child: Container(
+                                    width: 70,
+                                    height: 70,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                )
+                              : MaterialButton(
+                                  elevation: 0,
+                                  minWidth: double.maxFinite,
+                                  height: 50,
+                                  onPressed: _submitFormOnSignUp,
+                                  color: CustomColors.logoGreen,
+                                  child: Text('SignUp',
+                                      style: GoogleFonts.openSans(
+                                          color: Colors.white, fontSize: 16)),
+                                  textColor: Colors.white,
+                                ),
 
-                    GestureDetector(
-                      onTap: () {
-                        _showTaskCategoriesDialog(size: size);
-                      },
-                      child: TextFormField(
-                        enabled: false,
-                        textInputAction: TextInputAction.done,
-                        onEditingComplete: () => _submitFormOnSignUp,
-                        focusNode: _postitionCPFocusNode,
-                        keyboardType: TextInputType.name,
-                        controller: _postitionCPTextController,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "This field is missing";
-                          } else {
-                            return null;
-                          }
-                        },
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: 'Position in the company',
-                          hintStyle: TextStyle(color: Colors.white),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          disabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 80),
-              _isLoading
-                  ? Center(
-                      child: Container(
-                        width: 70,
-                        height: 70,
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  : MaterialButton(
-                      onPressed: _submitFormOnSignUp,
-                      color: Colors.pink.shade700,
-                      elevation: 8,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'SignUp',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Icon(
-                              Icons.person_add,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-            )
-          )
-            )
-        )
-    );
+                          //MaterialButton(
+                          //    onPressed: _submitFormOnSignUp,
+                          //    color: Colors.pink.shade700,
+                          //    elevation: 8,
+                          //    shape: RoundedRectangleBorder(
+                          //        borderRadius: BorderRadius.circular(13)),
+                          //    child: Padding(
+                          //      padding: const EdgeInsets.symmetric(
+                          //          vertical: 14),
+                          //      child: Row(
+                          //        mainAxisAlignment:
+                          //            MainAxisAlignment.center,
+                          //        children: [
+                          //          Text(
+                          //            'SignUp',
+                          //            style: GoogleFonts.openSans(
+                          //                color: Colors.white,
+                          //                fontWeight: FontWeight.bold,
+                          //                fontSize: 20),
+                          //          ),
+                          //          SizedBox(
+                          //            width: 8,
+                          //          ),
+                          //          Icon(
+                          //            Icons.person_add,
+                          //            color: Colors.white,
+                          //          ),
+                          //        ],
+                          //      ),
+                          //    ),
+                          //  )
+                        ])))));
   }
+
   void _showImageDialog() {
     showDialog(
         context: context,
@@ -465,7 +504,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Text(
                         'Camera',
-                        style: TextStyle(color: Colors.purple),
+                        style: GoogleFonts.openSans(color: Colors.purple),
                       ),
                     ],
                   ),
@@ -485,7 +524,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Text(
                         'Gallery',
-                        style: TextStyle(color: Colors.purple),
+                        style: GoogleFonts.openSans(color: Colors.purple),
                       ),
                     ],
                   ),
@@ -533,6 +572,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   void _showTaskCategoriesDialog({required Size size}) {
+    /*
     showDialog(
         context: context,
         builder: (ctx) {
@@ -587,5 +627,6 @@ class _SignUpState extends State<SignUp> {
             ],
           );
         });
+        */
   }
 }

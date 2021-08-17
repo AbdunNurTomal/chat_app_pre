@@ -1,8 +1,9 @@
-import 'package:chat_app/auth/firebase_auth_service.dart';
-import 'package:chat_app/login_page.dart';
-import 'package:chat_app/utils/custom_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../auth/firebase_auth_service.dart';
+import '../../auth/login_page.dart';
+import '../../utils/custom_color.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key, required User user})

@@ -1,10 +1,12 @@
-import 'package:chat_app/auth/firebase_auth_service.dart';
-import 'package:chat_app/component/side_menu.dart';
-import 'package:chat_app/login_page.dart';
-import 'package:chat_app/pages/message/message_header_bar.dart';
-import 'package:chat_app/utils/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../../auth/firebase_auth_service.dart';
+import '../../component/side_menu.dart';
+import '../../auth/login_page.dart';
+import '../../pages/message/message_header_bar.dart';
+import '../../utils/constants.dart';
+import '../../utils/custom_color.dart';
 
 class ChatRoomPage extends StatefulWidget {
   static const String routeName = "\chat_room";
@@ -36,15 +38,15 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
           child: SideMenu(),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: kIsWeb ? kDefaultPadding : 0),
-          color: kBgDarkColor,
+          padding: EdgeInsets.only(top: kIsWeb ? Constants.kDefaultPadding : 0),
+          color: CustomColors.kBgDarkColor,
           child: SafeArea(
             right: false,
             child: Column(children: [
               // This is our Header bar
               MessageHeaderBar(scaffoldKey: _scaffoldKey),
 
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: Constants.kDefaultPadding),
               Text('Chat Room Page')
             ]),
           ),

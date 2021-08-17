@@ -1,10 +1,11 @@
-import 'package:chat_app/auth/firebase_auth_service.dart';
-import 'package:chat_app/auth/google_sign_in_button.dart';
-import 'package:chat_app/utils/custom_color.dart';
-import 'package:chat_app/welcome_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../auth/firebase_auth_service.dart';
+import '../../auth/google_sign_in_button.dart';
+import '../../utils/custom_color.dart';
+import '../../welcome_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = "\login";
